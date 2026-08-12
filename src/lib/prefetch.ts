@@ -1,7 +1,7 @@
 // Server-side fetchers against the ep-api multi-tenant backend.
 // Mirrors chm-website's prefetch pattern, scoped to what gconf.ai needs.
 
-import { getTenantApiKey } from './tenant';
+import { getCompanyDetailsApiPath, getTenantApiKey } from './tenant';
 import type { BlogPost, BlogPublisher, GalleryPhoto } from './api';
 
 const EXTERNAL_API_URL = process.env.NEXT_PUBLIC_GCONF_API_URL || '';
@@ -33,8 +33,8 @@ function warnOnceIfEnvMissing(apiKey: string) {
     console.warn(
       `[prefetch] Missing env vars — NEXT_PUBLIC_GCONF_API_URL="${
         EXTERNAL_API_URL ? 'set' : 'MISSING'
-      }", NEXT_PUBLIC_GCONF_API_KEY="${apiKey ? 'set' : 'MISSING'}". ` +
-        'All API fetches will return null until these are set and the site is redeployed.',
+      }", API_KEY="${apiKey ? 'set' : 'MISSING'}". ` +
+        'All API fetches will return null until GCONF_SITE_KEY or GCONF_API_KEY / NEXT_PUBLIC_GCONF_API_KEY is set and the site is redeployed.',
     );
   }
 }
@@ -202,7 +202,7 @@ export async function prefetchAppDetails(): Promise<AppDetails | null> {
     // Intentionally NOT using noAuth — the endpoint's resolveTenant middleware
     // needs the API key in the Authorization header to identify which tenant's
     // settings to return. Without it the handler falls back to empty strings.
-    const data = await fetchFromExternalAPI('/settings/public/app-details', {
+    const data = await fetchFromExternalAPI(await getCompanyDetailsApiPath(), {
       cacheDuration: CANONICAL_CACHE_DURATION,
       tags: ['app-details'],
     });

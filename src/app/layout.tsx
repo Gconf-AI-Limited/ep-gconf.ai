@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import { prefetchAppDetails } from '@/lib/prefetch';
+import { AuthModeBadge } from '@/components/AuthModeBadge';
 import './globals.css';
 
 const inter = Inter({
@@ -32,7 +33,10 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <AuthModeBadge />
+      </body>
     </html>
   );
 }
