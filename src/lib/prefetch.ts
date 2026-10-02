@@ -187,10 +187,17 @@ export interface AppDetails {
   logo_header?: string;
   logo_footer?: string;
   logo_dashboard?: string;
+  logo_header_dark?: string;
+  logo_dashboard_dark?: string;
   favicon?: string;
   logo_header_scale?: number;
   logo_footer_scale?: number;
   logo_dashboard_scale?: number;
+}
+
+/** The site is always on a dark ground, so prefer the CMS's light (dark-background) logo. */
+export function resolveDarkBgLogo(app: AppDetails | null): string | undefined {
+  return app?.logo_header_dark || app?.logo_dashboard_dark || app?.logo_header || undefined;
 }
 
 /**

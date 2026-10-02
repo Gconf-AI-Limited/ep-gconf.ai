@@ -5,11 +5,11 @@ import { GlitchLine } from '@/components/GlitchLine';
 import { NewsletterForm } from '@/components/NewsletterForm';
 import { HomeNav } from '@/components/HomeNav';
 import { FooterBottom } from '@/components/FooterBottom';
-import { prefetchAppDetails } from '@/lib/prefetch';
+import { prefetchAppDetails, resolveDarkBgLogo } from '@/lib/prefetch';
 
 export default async function Home() {
   const app = await prefetchAppDetails();
-  const logoUrl = app?.logo_header;
+  const logoUrl = resolveDarkBgLogo(app);
   const logoScale = app?.logo_header_scale ?? 100;
   const appName = app?.app_name || 'gconf.ai';
 
@@ -39,7 +39,8 @@ export default async function Home() {
               alt={appName}
               className="home-logo"
               style={{
-                maxWidth: `${logoScale}%`,
+                // Explicit width: an SVG logo with only a viewBox has no intrinsic size and collapses to 0.
+                width: `min(${Math.round(9.2 * logoScale)}px, 90vw)`,
                 height: 'auto',
                 display: 'inline-block',
               }}
