@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import type { ReactNode } from 'react';
-import { prefetchAppDetails } from '@/lib/prefetch';
+import { prefetchAppDetails, resolveDarkBgLogo } from '@/lib/prefetch';
 import { FooterBottom } from '@/components/FooterBottom';
 
 /**
@@ -10,7 +10,7 @@ import { FooterBottom } from '@/components/FooterBottom';
  */
 export async function BlogShell({ children }: { children: ReactNode }) {
   const app = await prefetchAppDetails();
-  const logoUrl = app?.logo_header;
+  const logoUrl = resolveDarkBgLogo(app);
   const logoScale = app?.logo_header_scale ?? 100;
   const appName = app?.app_name || 'gconf.ai';
 
@@ -29,8 +29,8 @@ export async function BlogShell({ children }: { children: ReactNode }) {
               alt={appName}
               className="blog-nav-logo"
               style={{
-                // Base size 34px at scale=100 (20% larger than the original 28px).
-                height: `${Math.round((logoScale / 100) * 34)}px`,
+                // Base size 28px at scale=100.
+                height: `${Math.round((logoScale / 100) * 28)}px`,
                 width: 'auto',
                 display: 'block',
               }}
