@@ -40,7 +40,7 @@ export default async function Home() {
               className="home-logo"
               style={{
                 // Explicit width: an SVG logo with only a viewBox has no intrinsic size and collapses to 0.
-                width: `min(${Math.round(9.2 * logoScale)}px, 90vw)`,
+                width: `min(${Math.round(7.4 * logoScale)}px, 90vw)`,
                 height: 'auto',
                 display: 'inline-block',
               }}
