@@ -19,13 +19,12 @@ const jetbrainsMono = JetBrains_Mono({
 
 export async function generateMetadata(): Promise<Metadata> {
   const app = await prefetchAppDetails();
-  const favicon = app?.favicon;
+  const favicon = '/gconf-favicon.svg';
   return {
     title: app?.app_name || 'gconf.ai',
     description: app?.app_description || 'the conference reimagined',
-    ...(favicon
-      ? { icons: { icon: favicon, shortcut: favicon, apple: favicon } }
-      : {}),
+    // iOS home-screen icons don't support SVG, so apple keeps the CMS PNG.
+    icons: { icon: favicon, shortcut: favicon, ...(app?.favicon ? { apple: app.favicon } : {}) },
   };
 }
 
