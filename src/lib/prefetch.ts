@@ -196,8 +196,8 @@ export interface AppDetails {
 }
 
 /** The site is always on a dark ground, so prefer the CMS's light (dark-background) logo. */
-export function resolveDarkBgLogo(app: AppDetails | null): string | undefined {
-  return app?.logo_header_dark || app?.logo_dashboard_dark || app?.logo_header || undefined;
+export function resolveDarkBgLogo(app: AppDetails | null): string {
+  return app?.logo_header_dark || app?.logo_dashboard_dark || '/gconf-logo-dark.svg';
 }
 
 /**
