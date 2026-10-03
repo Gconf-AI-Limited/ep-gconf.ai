@@ -19,7 +19,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export async function generateMetadata(): Promise<Metadata> {
   const app = await prefetchAppDetails();
-  const favicon = '/gconf-favicon-offwhite.svg';
+  const favicon = '/gconf-favicon.svg';
   return {
     title: app?.app_name || 'gconf.ai',
     description: app?.app_description || 'the conference reimagined',
