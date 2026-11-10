@@ -82,6 +82,7 @@ export interface CMSBlock {
   content?: string;
   description?: string;
   published?: boolean;
+  visible?: boolean;
 }
 
 export interface CMSPage {

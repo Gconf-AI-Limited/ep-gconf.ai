@@ -43,8 +43,11 @@ export async function LegalPage({ cmsSlug, fallbackTitle }: LegalPageConfig) {
   const page = await prefetchCMSPage(cmsSlug);
   // Dashboard block types store their text in different fields: text/content
   // blocks use `content`, simple blocks use `description`.
+  // DECISION: `visible` wins over `published`. The dashboard's "content" block
+  // has only a visibility toggle (no publish switch), so its `published` stays
+  // false forever; blocks without `visible` fall back to `published`.
   const markdown = (page?.content?.blocks ?? [])
-    .filter((block) => block.published !== false)
+    .filter((block) => (block.visible ?? block.published) !== false)
     .map((block) => block.content || block.description || '')
     .filter(Boolean)
     .map(decodeEntities)
