@@ -41,9 +41,13 @@ function formatDate(iso: string | undefined): string {
 
 export async function LegalPage({ cmsSlug, fallbackTitle }: LegalPageConfig) {
   const page = await prefetchCMSPage(cmsSlug);
+  // Dashboard block types store their text in different fields: text/content
+  // blocks use `content`, simple blocks use `description`.
   const markdown = (page?.content?.blocks ?? [])
-    .filter((block) => block.published !== false && block.content)
-    .map((block) => decodeEntities(block.content ?? ''))
+    .filter((block) => block.published !== false)
+    .map((block) => block.content || block.description || '')
+    .filter(Boolean)
+    .map(decodeEntities)
     .join('\n\n')
     .replace(LEADING_H1_RE, '');
   const title = page?.page_title || fallbackTitle;

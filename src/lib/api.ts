@@ -80,6 +80,7 @@ export interface CMSBlock {
   type?: string;
   title?: string;
   content?: string;
+  description?: string;
   published?: boolean;
 }
 
