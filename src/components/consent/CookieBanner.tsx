@@ -66,9 +66,9 @@ export function CookieBanner() {
               <span aria-hidden> · </span>
             </>
           ) : null}
-          change anytime via cookie settings
+          change anytime via cookies in the footer
           <span aria-hidden> · </span>
-          <Link href="/privacy">privacy statement →</Link>
+          <Link href="/privacy">privacy →</Link>
         </p>
       </div>
     </section>
