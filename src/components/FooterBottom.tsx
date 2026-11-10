@@ -15,8 +15,8 @@ const ANIM_DURATION = 1200;
 const PAUSE = 1900;
 
 const LEGAL_LINKS = [
-  { href: '/privacy', label: 'Privacy Statement' },
-  { href: '/terms', label: 'Terms & Conditions' },
+  { href: '/privacy', label: 'Privacy' },
+  { href: '/terms', label: 'Terms' },
   { href: '/data-processing-agreement', label: 'DPA' },
 ];
 
