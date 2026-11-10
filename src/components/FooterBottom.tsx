@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { GlitchText } from './GlitchText';
 import type { GlitchTextHandle } from './GlitchText';
+import { useConsent } from './consent/ConsentProvider';
 
 interface Props {
   /** Site/app name shown next to the © glyph. Defaults to "gconf.ai". */
@@ -11,6 +13,12 @@ interface Props {
 
 const ANIM_DURATION = 1200;
 const PAUSE = 1900;
+
+const LEGAL_LINKS = [
+  { href: '/privacy', label: 'Privacy Statement' },
+  { href: '/terms', label: 'Terms & Conditions' },
+  { href: '/data-processing-agreement', label: 'DPA' },
+];
 
 /**
  * "Powered by" left + © right footer strip, styled to match chm-website.
@@ -66,9 +74,20 @@ function PoweredByGconf() {
 
 export function FooterBottom({ appName = 'gconf.ai' }: Props) {
   const year = String(new Date().getFullYear());
+  const { openSettings } = useConsent();
   return (
     <div className="footer-bottom-bar">
       <PoweredByGconf />
+      <nav className="footer-legal-links footer-bottom-text" aria-label="Legal">
+        {LEGAL_LINKS.map((link) => (
+          <Link key={link.href} href={link.href}>
+            {link.label}
+          </Link>
+        ))}
+        <button type="button" className="footer-legal-button" onClick={openSettings}>
+          Cookie settings
+        </button>
+      </nav>
       <div className="copyright-group flex items-center gap-2 h-5">
         <svg
           className="animate-copyright-glow"

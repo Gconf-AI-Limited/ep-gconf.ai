@@ -37,6 +37,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'daily',
       priority: 0.9,
     },
+    ...['/privacy', '/terms', '/data-processing-agreement'].map((path) => ({
+      url: `${baseUrl}${path}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.3,
+    })),
     {
       url: `${baseUrl}/llms.txt`,
       lastModified: now,

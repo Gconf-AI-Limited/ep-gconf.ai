@@ -72,3 +72,23 @@ export interface GalleryPhoto {
   gallery_id?: string | null;
   carousel_id?: string | null;
 }
+
+// CMS page (legal pages: privacy-statement, terms-and-conditions, …).
+// Only the fields gconf.ai reads.
+export interface CMSBlock {
+  id: string;
+  type?: string;
+  title?: string;
+  content?: string;
+  published?: boolean;
+}
+
+export interface CMSPage {
+  id: string;
+  page_slug: string;
+  page_title: string;
+  published?: boolean;
+  content?: { blocks?: CMSBlock[] };
+  last_updated?: string;
+  seo?: SEOSettings;
+}

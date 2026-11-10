@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import { prefetchAppDetails } from '@/lib/prefetch';
+import { ConsentProvider } from '@/components/consent/ConsentProvider';
+import { CookieBanner } from '@/components/consent/CookieBanner';
 import './globals.css';
 
 const inter = Inter({
@@ -31,7 +33,12 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`}>
-      <body>{children}</body>
+      <body>
+        <ConsentProvider>
+          {children}
+          <CookieBanner />
+        </ConsentProvider>
+      </body>
     </html>
   );
 }

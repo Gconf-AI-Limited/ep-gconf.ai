@@ -7,6 +7,8 @@ import type {
   BlogPublisher,
   GalleryPhoto,
 } from '@/lib/api';
+import { decodeEntities } from '@/lib/markdown';
+import { ConsentGate } from '@/components/consent/ConsentGate';
 import { BlogShell } from '../BlogShell';
 import { BlogCarousel } from './BlogCarousel';
 import { BlogGallery } from './BlogGallery';
@@ -16,24 +18,6 @@ import BlogLottie from './BlogLottie';
 // Enable inline HTML (e.g. <sup>, <sub>, <kbd>) in markdown content.
 // Content comes from the tenant's trusted CMS editors.
 const REHYPE_PLUGINS = [rehypeRaw];
-
-// The ep-dashboard rich-text editor stores HTML-entity-encoded content (it
-// persists `<sup>` as `&lt;sup&gt;` in the block's `content` field). Decode
-// the common entities back to raw characters so rehype-raw can parse the
-// resulting tags. Idempotent for already-raw content.
-const HTML_ENTITY_RE = /&(lt|gt|amp|quot|#39|apos|nbsp);/g;
-const HTML_ENTITY_MAP: Record<string, string> = {
-  lt: '<',
-  gt: '>',
-  amp: '&',
-  quot: '"',
-  '#39': "'",
-  apos: "'",
-  nbsp: ' ',
-};
-function decodeEntities(input: string): string {
-  return input.replace(HTML_ENTITY_RE, (_, key: string) => HTML_ENTITY_MAP[key] ?? _);
-}
 
 function formatDate(iso: string | undefined): string {
   if (!iso) return '';
@@ -77,20 +61,26 @@ function BlockRenderer({
     return (
       <figure className="blog-embed blog-embed--video">
         {block.title ? <figcaption>{block.title}</figcaption> : null}
-        <div className="blog-embed-frame">
-          <iframe
-            src={getYouTubeEmbedUrl(block.videoUrl)}
-            title={block.title || 'Embedded video'}
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        </div>
+        <ConsentGate provider="YouTube" href={block.videoUrl}>
+          <div className="blog-embed-frame">
+            <iframe
+              src={getYouTubeEmbedUrl(block.videoUrl)}
+              title={block.title || 'Embedded video'}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </ConsentGate>
       </figure>
     );
   }
   if (block.type === 'tweet' && block.tweetUrl) {
-    return <BlogTweet tweetUrl={block.tweetUrl} title={block.title} />;
+    return (
+      <ConsentGate provider="X" href={block.tweetUrl}>
+        <BlogTweet tweetUrl={block.tweetUrl} title={block.title} />
+      </ConsentGate>
+    );
   }
   if (block.type === 'lottie' && block.animationData) {
     return (

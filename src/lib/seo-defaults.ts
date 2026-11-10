@@ -16,17 +16,27 @@ export const SEO_DEFAULTS = {
 const PAGE_TITLES: Record<string, string> = {
   home: SEO_DEFAULTS.defaultTitle,
   blog: `Blog · ${SEO_DEFAULTS.siteName}`,
+  privacy: `Privacy Statement · ${SEO_DEFAULTS.siteName}`,
+  terms: `Terms and Conditions · ${SEO_DEFAULTS.siteName}`,
+  dpa: `Data Processing Agreement · ${SEO_DEFAULTS.siteName}`,
 };
 
 const PAGE_DESCRIPTIONS: Record<string, string> = {
   home: SEO_DEFAULTS.defaultDescription,
   blog:
     'Essays and transmissions from gconf.ai — AI, engineering, and conference field notes.',
+  privacy:
+    'How Gconf AI Limited collects, uses and protects personal data, your GDPR rights, and how to make a data request.',
+  terms: 'The terms that govern your use of gconf.ai and the gconf event platform.',
+  dpa: 'The GDPR Article 28 data processing agreement between gconf and its business customers.',
 };
 
 const PAGE_CANONICALS: Record<string, string> = {
   home: '/',
   blog: '/blog',
+  privacy: '/privacy',
+  terms: '/terms',
+  dpa: '/data-processing-agreement',
 };
 
 const VALID_OG_TYPES = ['website', 'article', 'profile', 'video.movie'] as const;

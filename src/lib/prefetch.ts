@@ -2,7 +2,7 @@
 // Mirrors chm-website's prefetch pattern, scoped to what gconf.ai needs.
 
 import { getCompanyDetailsApiPath, getTenantApiKey } from './tenant';
-import type { BlogPost, BlogPublisher, GalleryPhoto } from './api';
+import type { BlogPost, BlogPublisher, CMSPage, GalleryPhoto } from './api';
 
 const EXTERNAL_API_URL = process.env.NEXT_PUBLIC_GCONF_API_URL || '';
 const CACHE_DURATION = 60;
@@ -78,6 +78,16 @@ async function fetchFromExternalAPI(
       return null;
     }
   });
+}
+
+// ── CMS pages ─────────────────────────────────────────────────────────
+
+export async function prefetchCMSPage(slug: string): Promise<CMSPage | null> {
+  const data = await fetchFromExternalAPI(`/cms/pages/${slug}`, {
+    tags: ['cms', `cms-${slug}`],
+  });
+  const page = data as CMSPage | null;
+  return page && page.published !== false ? page : null;
 }
 
 // ── Blog ──────────────────────────────────────────────────────────────

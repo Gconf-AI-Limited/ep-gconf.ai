@@ -8,7 +8,14 @@ import { FooterBottom } from '@/components/FooterBottom';
  * nav bar with brand mark (from CMS settings, falls back to the inline
  * bolt+wordmark), and footer. Server component — no client state.
  */
-export async function BlogShell({ children }: { children: ReactNode }) {
+export async function BlogShell({
+  children,
+  blogActive = true,
+}: {
+  children: ReactNode;
+  /** Highlight the "blog" nav link. Off for non-blog pages reusing this shell (legal pages). */
+  blogActive?: boolean;
+}) {
   const app = await prefetchAppDetails();
   const logoUrl = resolveDarkBgLogo(app);
   const logoScale = app?.logo_header_scale ?? 100;
@@ -47,7 +54,10 @@ export async function BlogShell({ children }: { children: ReactNode }) {
           )}
         </Link>
         <div className="blog-nav-links">
-          <Link href="/blog" className="blog-nav-link blog-nav-link--active">
+          <Link
+            href="/blog"
+            className={blogActive ? 'blog-nav-link blog-nav-link--active' : 'blog-nav-link'}
+          >
             blog
           </Link>
         </div>
