@@ -85,7 +85,7 @@ export function FooterBottom({ appName = 'gconf.ai' }: Props) {
           </Link>
         ))}
         <button type="button" className="footer-legal-button" onClick={openSettings}>
-          Cookie settings
+          Cookies
         </button>
       </nav>
       <div className="copyright-group flex items-center gap-2 h-5">
